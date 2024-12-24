@@ -61,9 +61,7 @@ namespace eTickets
                     pattern: "{controller=Movies}/{action=Index}/{id?}");
             });
 
-            //Seed database
-            AppDbInitializer.Seed(app);
-            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+     
         }
     }
 }
