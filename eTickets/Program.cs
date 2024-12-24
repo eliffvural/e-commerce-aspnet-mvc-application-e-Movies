@@ -1,5 +1,6 @@
 using eTickets.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,9 +46,17 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//Seed database
+AppDbInitializer.Seed(app);
+
+
+
 // Varsayýlan route ayarýný güncelleme
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Movies}/{action=Index}/{id?}");
+
+
+
 
 app.Run();
