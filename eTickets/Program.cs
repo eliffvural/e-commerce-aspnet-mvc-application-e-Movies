@@ -1,16 +1,36 @@
+using eTickets.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Servisleri ekleme
+
+// DbContext yapýlandýrmasý
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+// MVC servislerini ekleme
 builder.Services.AddControllersWithViews();
+
+// Session servislerini ekleme (eðer kullanýyorsanýz)
+builder.Services.AddSession();
+
+// Authentication & Authorization servislerini ekleme (eðer kullanýyorsanýz)
+// Örneðin:
+// builder.Services.AddAuthentication(/* seçenekler */)
+//     .AddCookie(/* seçenekler */);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// HTTP istek boru hattýný yapýlandýrma
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -18,10 +38,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Session middleware'i kullanma (eðer kullanýyorsanýz)
+app.UseSession();
+
+// Authentication & Authorization middleware'lerini kullanma (eðer kullanýyorsanýz)
+app.UseAuthentication();
 app.UseAuthorization();
 
+// Varsayýlan route ayarýný güncelleme
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Movies}/{action=Index}/{id?}");
 
 app.Run();
