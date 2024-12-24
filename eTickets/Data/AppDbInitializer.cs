@@ -11,12 +11,40 @@
                 context.Database.EnsureCreated();
 
                 //Cinema
+                if (!context.Cinemas.Any()) 
+                {
+
+                }
+
                 //Actors
+                if (!context.Actors.Any())
+                {
+
+                }
+
+
                 //Producers
+                if (!context.Producers.Any())
+                {
+
+                }
+
+
                 //Movies
+                if (!context.Movies.Any())
+                {
+
+                }
+
+
                 //Actors-Movies
-                
-            
+                if (!context.Actor_Movies.Any())
+                {
+
+                }
+
+
+
             }
         }
     }
