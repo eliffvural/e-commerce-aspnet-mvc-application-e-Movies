@@ -47,6 +47,9 @@
 
 @section Scripts {
    <script>
-
+        $("#ProfilePictureURL").on("change", function () {
+            var output = document.getElementById("#ProfilePictureURLPreview");
+            output.src= $(this).val();
+        });
    </script>
 }
