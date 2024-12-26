@@ -31,16 +31,24 @@ namespace eTickets
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+                options.Cookie.HttpOnly = true; // Security
+                options.Cookie.IsEssential = true; // Ensure cookies are essential
+            });
+
             //DbContext configuration
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
             //Services configuration
             services.AddScoped<IActorsService, ActorsService>();
-           
+          
 
-           
 
-            services.AddControllersWithViews();
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +85,7 @@ namespace eTickets
 
             //Seed database
             AppDbInitializer.Seed(app);
+    
         }
     }
 }
