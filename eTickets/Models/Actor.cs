@@ -9,6 +9,7 @@ namespace eTickets.Models
 
 
         [Display(Name = "Profile picture")]
+        [Required]
         public String ProfilePictureURL { get; set; }
 
 
