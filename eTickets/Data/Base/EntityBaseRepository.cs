@@ -14,7 +14,12 @@ namespace eTickets.Data.Base
         {
             _context = context;
         }
-        public  async Task AddAsync(T entity)=> await _context.Set<T>().AddAsync(entity);
+        public  async Task AddAsync(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+        } 
         
 
         public async Task DeleteAsync(int id)
@@ -22,6 +27,8 @@ namespace eTickets.Data.Base
             var entity = _context.Set<T>().FirstOrDefault(n => n.Id == id);
             EntityEntry entiryEntry = _context.Entry<T>(entity);
             entiryEntry.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task<IEnumerable<T>> GetAllAsync() =>  await _context.Set<T>().ToListAsync();
@@ -43,6 +50,8 @@ namespace eTickets.Data.Base
         {
            EntityEntry entiryEntry = _context.Entry<T>(entity);
             entiryEntry.State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
 
         }
     }
