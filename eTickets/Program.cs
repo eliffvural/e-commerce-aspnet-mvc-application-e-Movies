@@ -1,37 +1,33 @@
-using eTickets.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Servisleri ekleme
+// Session Servislerini Ekleyin
+builder.Services.AddDistributedMemoryCache(); // Gerekli oturum depolama
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturumun zaman aþýmý süresi
+    options.Cookie.HttpOnly = true; // Güvenlik için HTTPOnly
+    options.Cookie.IsEssential = true; // Çerezlerin gerekli olduðunu belirtiyor
+});
 
-// DbContext yapýlandýrmasý
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
-
-// MVC servislerini ekleme
+// Diðer servisleri ekleyin
 builder.Services.AddControllersWithViews();
-
-// Session servislerini ekleme (eðer kullanýyorsanýz)
-builder.Services.AddSession();
-
-// Authentication & Authorization servislerini ekleme (eðer kullanýyorsanýz)
-// Örneðin:
-// builder.Services.AddAuthentication(/* seçenekler */)
-//     .AddCookie(/* seçenekler */);
 
 var app = builder.Build();
 
-// HTTP istek boru hattýný yapýlandýrma
+// Middleware yapýlandýrmasý
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
-else
-{
-    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -39,24 +35,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Session middleware'i kullanma (eðer kullanýyorsanýz)
-app.UseSession();
-
-// Authentication & Authorization middleware'lerini kullanma (eðer kullanýyorsanýz)
+app.UseSession(); // Session Middleware'i ekleyin
 app.UseAuthentication();
 app.UseAuthorization();
 
-//Seed database
-AppDbInitializer.Seed(app);
-
-
-
-// Varsayýlan route ayarýný güncelleme
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Movies}/{action=Index}/{id?}");
-
-
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
