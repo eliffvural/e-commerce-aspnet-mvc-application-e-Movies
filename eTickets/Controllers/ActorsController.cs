@@ -32,12 +32,22 @@ namespace eTickets.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName, ProfilePictureURL, Bio")] Actor actor)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(actor.FullName))
             {
-               
+                TempData["ErrorMessage"] = "Actor name is required.";
                 return View(actor);
             }
-           
+            if (string.IsNullOrEmpty(actor.Bio))
+            {
+                TempData["ErrorMessage"] = "Bio is required.";
+                return View(actor);
+            }
+            if (string.IsNullOrEmpty(actor.ProfilePictureURL))
+            {
+                TempData["ErrorMessage"] = "Profile picture is required.";
+                return View(actor);
+            }
+
             await _service.AddAsync(actor);
             return RedirectToAction(nameof(Index));
         }
