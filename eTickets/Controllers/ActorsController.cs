@@ -1,5 +1,6 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
+using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eTickets.Controllers
@@ -13,7 +14,7 @@ namespace eTickets.Controllers
         {
             _service = service;
         }
-        public async Task< IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var data = await _service.GetAll();
             return View(data);
@@ -28,14 +29,29 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("FullName, ProfilePictureURL, Bio")]Actor actor)
+        public async Task<IActionResult> Create([Bind("FullName, ProfilePictureURL, Bio")] Actor actor)
         {
-           if(ModelState.IsValid)
+            if (string.IsNullOrEmpty(actor.FullName))
             {
+                TempData["ErrorMessage"] = "Actor name is required.";
+                return View(actor);
+            }
+            if (string.IsNullOrEmpty(actor.Bio))
+            {
+                TempData["ErrorMessage"] = "Bio is required.";
+                return View(actor);
+            }
+            if (string.IsNullOrEmpty(actor.ProfilePictureURL))
+            {
+                TempData["ErrorMessage"] = "Profile picture is required.";
                 return View(actor);
             }
             _service.Add(actor);
             return RedirectToAction(nameof(Index));
         }
+
+
+     
+
     }
 }

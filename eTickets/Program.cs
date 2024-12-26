@@ -22,6 +22,7 @@ namespace eTickets
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
                 });
     }
 }
