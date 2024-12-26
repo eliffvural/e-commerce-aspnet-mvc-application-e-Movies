@@ -51,7 +51,15 @@ namespace eTickets.Controllers
         }
 
 
-     
+        //Get: Actors/Details/1
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            var actorDetails = _service.GetById(id);
+
+            if (actorDetails == null) return View("Empty");
+            return View(actorDetails);
+        }
 
     }
 }
