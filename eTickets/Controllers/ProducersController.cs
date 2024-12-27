@@ -119,13 +119,13 @@ namespace eTickets.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> DeleteConfirmed(int id,  Producer producer)
         {
             var producerDetails = await _service.GetByIdAsync(id);
             if (producerDetails == null) return View("NotFound");
 
             await _service.DeleteAsync(id);
-            return RedirectToAction(nameof(Index))
+            return RedirectToAction(nameof(Index));
 
 
         }
