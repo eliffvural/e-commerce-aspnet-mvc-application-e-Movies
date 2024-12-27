@@ -105,32 +105,32 @@ namespace eTickets.Data
                         {
                             FullName = "Producer 1",
                             Bio = "This is the Bio of the first actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-1.jpeg"
+                            ProfilePictureURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4q6o-Be03oq9Vap0z01-KlYtrD19cGMmX_w&s"
 
                         },
                         new Producer()
                         {
                             FullName = "Producer 2",
                             Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-2.jpeg"
+                            ProfilePictureURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4q6o-Be03oq9Vap0z01-KlYtrD19cGMmX_w&s"
                         },
                         new Producer()
                         {
                             FullName = "Producer 3",
                             Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-3.jpeg"
+                            ProfilePictureURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4q6o-Be03oq9Vap0z01-KlYtrD19cGMmX_w&s"
                         },
                         new Producer()
                         {
                             FullName = "Producer 4",
                             Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-4.jpeg"
+                            ProfilePictureURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4q6o-Be03oq9Vap0z01-KlYtrD19cGMmX_w&s"
                         },
                         new Producer()
                         {
                             FullName = "Producer 5",
                             Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-5.jpeg"
+                            ProfilePictureURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4q6o-Be03oq9Vap0z01-KlYtrD19cGMmX_w&s"
                         }
                     });
                     context.SaveChanges();
