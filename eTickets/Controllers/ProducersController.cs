@@ -118,7 +118,7 @@ namespace eTickets.Controllers
             return View(producerDetails);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
         {
             var producerDetails = await _service.GetByIdAsync(id);
