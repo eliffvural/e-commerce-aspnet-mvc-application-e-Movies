@@ -1,6 +1,12 @@
-﻿namespace eTickets.Data.Services
+﻿using eTickets.Data.Base;
+using eTickets.Models;
+
+namespace eTickets.Data.Services
 {
-    public class CinemasService
+    public class CinemasService:EntityBaseRepository<Cinema>, ICinemasService
     {
+        public CinemasService(AppDbContext context) : base(context)
+        {
+        }
     }
 }
