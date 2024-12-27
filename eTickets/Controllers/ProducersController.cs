@@ -102,5 +102,50 @@ namespace eTickets.Controllers
 
            
         }
+
+
+
+
+
+
+
+        //GET: producers/delete/1
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var producerDetails = await _service.GetByIdAsync(id);
+            if (producerDetails == null) return View("NotFound");
+            return View(producerDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        {
+            if (string.IsNullOrEmpty(producer.FullName))
+            {
+                TempData["ErrorMessage"] = "Actor name is required.";
+                return View(producer);
+            }
+            if (string.IsNullOrEmpty(producer.Bio))
+            {
+                TempData["ErrorMessage"] = "Bio is required.";
+                return View(producer);
+            }
+            if (string.IsNullOrEmpty(producer.ProfilePictureURL))
+            {
+                TempData["ErrorMessage"] = "Profile picture is required.";
+                return View(producer);
+            }
+
+            if (id == producer.Id)
+            {
+                await _service.UpdateAsync(id, producer);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(producer);
+
+
+        }
     }
 }
