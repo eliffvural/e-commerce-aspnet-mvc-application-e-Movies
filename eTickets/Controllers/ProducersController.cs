@@ -27,5 +27,14 @@ namespace eTickets.Controllers
             if (producerDetails == null) return View("NotFound");
             return View(producerDetails);
         }
+
+
+
+        //GET: producers/create
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
