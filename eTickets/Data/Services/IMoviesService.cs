@@ -1,6 +1,10 @@
-﻿namespace eTickets.Data.Services
+﻿using eTickets.Data.Base;
+using eTickets.Models;
+
+namespace eTickets.Data.Services
 {
-    public interface IMoviesService
+    public interface IMoviesService: IEntityBaseRepository<Movie>
     {
+
     }
 }
