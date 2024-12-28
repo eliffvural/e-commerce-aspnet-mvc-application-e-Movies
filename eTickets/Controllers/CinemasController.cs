@@ -67,5 +67,41 @@ namespace eTickets.Controllers
         }
 
 
+
+
+        //GET: Cinemas/Edit/1
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var cinemaDetails = await _service.GetByIdAsync(id);
+            if (cinemaDetails == null) return View("NotFound");
+            return View(cinemaDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Logo,Name,Description")] Cinema cinema)
+        {
+            if (string.IsNullOrEmpty(cinema.Name))
+            {
+                TempData["ErrorMessage"] = "Name is required.";
+                return View(cinema);
+            }
+            if (string.IsNullOrEmpty(cinema.Logo))
+            {
+                TempData["ErrorMessage"] = "Logo is required.";
+                return View(cinema);
+            }
+            if (string.IsNullOrEmpty(cinema.Description))
+            {
+                TempData["ErrorMessage"] = "Description is required.";
+                return View(cinema);
+            }
+
+            await _service.UpdateAsync(id,cinema);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
     }
 }
