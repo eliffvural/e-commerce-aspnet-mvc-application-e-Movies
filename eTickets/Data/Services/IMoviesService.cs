@@ -11,5 +11,6 @@ namespace eTickets.Data.Services
             _context = context;
         }
 
+        Task<string?> GetMovieByIdAsync(int id);
     }
 }
