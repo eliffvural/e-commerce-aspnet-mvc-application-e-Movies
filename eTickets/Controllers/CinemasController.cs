@@ -32,8 +32,26 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Logo,Name,Description")]Cinema)
+        public async Task<IActionResult> Create([Bind("Logo,Name,Description")]Cinema cinema)
         {
+            if (string.IsNullOrEmpty(cinema.Name))
+            {
+                TempData["ErrorMessage"] = "Name is required.";
+                return View(cinema);
+            }
+            if (string.IsNullOrEmpty(cinema.Logo))
+            {
+                TempData["ErrorMessage"] = "Logo is required.";
+                return View(cinema);
+            }
+            if (string.IsNullOrEmpty(cinema.Description))
+            {
+                TempData["ErrorMessage"] = "Description is required.";
+                return View(cinema);
+            }
+
+            await _service.AddAsync(cinema);
+            return RedirectToAction(nameof(Index));
 
         }
       
