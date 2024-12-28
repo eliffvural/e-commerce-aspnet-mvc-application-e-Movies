@@ -31,7 +31,7 @@ namespace eTickets.Controllers
 
 
         //GET:  Movies/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             ViewData["Welcome"]= "Welcome to our store";
             return View();
