@@ -57,6 +57,23 @@
                                 }
                             </p>
 
+
+                            <p class="card-text">
+                                <b>Actors: </b>
+                                <hr />
+                                <div class="card-text">
+                                @foreach (var actor in Model.Actor_Movies)
+                                {
+                                    <div class="flex-column text-center">
+                                        <img src="@actor.Actor.ProfilePictureURL" />
+                                        <a>
+                                            @actor.Actor.FullName
+                                        </a>
+                                    </div>
+                                }
+                                </div>
+                            </p>
+
                         </div>
                     </div>
                     <div class="col-md-12">
