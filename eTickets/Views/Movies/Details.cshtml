@@ -65,8 +65,9 @@
                                 @foreach (var actor in Model.Actor_Movies)
                                 {
                                     <div class="flex-column text-center">
-                                        <img src="@actor.Actor.ProfilePictureURL" />
-                                        <a>
+                                        <img class="border-info rounded-circle" src="@actor.Actor.ProfilePictureURL" style="max-width: 150px"/>
+                                        <br />
+                                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">
                                             @actor.Actor.FullName
                                         </a>
                                     </div>
@@ -79,8 +80,8 @@
                     <div class="col-md-12">
                         <div class="card-footer ">
                             <p class="card-text">
-                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@Model.Id">
-                                    <i class="bi bi-eye-fill"></i> Show Details
+                                <a class="btn btn-outline-primary float-right" asp-action="Index" >
+                                    Back to List
                                 </a>
                                 <a class="btn btn-success text-white @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
                                    asp-controller="Orders"
