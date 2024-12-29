@@ -13,7 +13,7 @@ namespace eTickets.Data.Services
             _context = context;
         }
 
-        public async Task AddNewMovie(NewMovieVM data)
+        public async Task AddNewMovieAsync(NewMovieVM data)
         {
             var newMovie = new Movie()
             {
@@ -40,8 +40,10 @@ namespace eTickets.Data.Services
                     MovieId = newMovie.Id,
                     ActorId= actorId
                 };
+                await _context.Actor_Movies.AddAsync(newActorMovie);
 
             }
+            await _context.SaveChangesAsync();
 
 
 
