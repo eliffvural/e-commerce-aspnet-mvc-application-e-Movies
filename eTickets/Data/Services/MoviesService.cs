@@ -27,10 +27,15 @@ namespace eTickets.Data.Services
 
         public async Task<NewMovieDropdownsVM> GetNewMovieDropdownsVM()
         {
-            var response = new NewMovieDropdownsVM();
-            response.Actors = await _context.Actors.OrderBy(n=>n.FullName).ToListAsync();
-            response.Cinemas = await _context.Cinemas.OrderBy(n => n.Name).ToListAsync();
-            response.Producers = await _context.Producers.OrderBy(n => n.FullName).ToListAsync();
+            var response = new NewMovieDropdownsVM()
+            {
+                Actors = await _context.Actors.OrderBy(n => n.FullName).ToListAsync(),
+                Cinemas = await _context.Cinemas.OrderBy(n => n.Name).ToListAsync(),
+                Producers = await _context.Producers.OrderBy(n => n.FullName).ToListAsync()
+            };
+
+
+          
 
             return response;
         }
