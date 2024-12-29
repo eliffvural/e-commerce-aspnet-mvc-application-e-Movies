@@ -101,5 +101,26 @@ namespace eTickets.Controllers
 
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,NewMovieVM movie)
+        {
+            if( id != movie.Id) return View("NotFound");    
+
+
+            if (!ModelState.IsValid)
+            {
+                var movieDropdownsData = await _service.GetNewMovieDropdownsVM();
+
+                ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
+                ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
+                ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+
+                return View(movie);
+            }
+            await _service.UpdateMovieAsync(movie);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
