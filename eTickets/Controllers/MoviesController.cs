@@ -48,19 +48,16 @@ namespace eTickets.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
-            if (string.IsNullOrEmpty(movie.Name))
+           
+
+            if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Name is required.";
-                return View(movie);
-            }
-            if (string.IsNullOrEmpty(movie.ImageURL))
-            {
-                TempData["ErrorMessage"] = "ImageURL is required.";
-                return View(movie);
-            }
-            if (string.IsNullOrEmpty(movie.Description))
-            {
-                TempData["ErrorMessage"] = "Description is required.";
+                var movieDropdownsData = await _service.GetNewMovieDropdownsVM();
+
+                ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
+                ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
+                ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+
                 return View(movie);
             }
             await _service.AddNewMovieAsync(movie);
