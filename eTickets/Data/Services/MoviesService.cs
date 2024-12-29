@@ -27,6 +27,24 @@ namespace eTickets.Data.Services
                 MovieCategory= data.MovieCategory,
                 ProducerId= data.ProducerId
             };
+            await _context.Movies.AddAsync(newMovie);
+            await _context.SaveChangesAsync();
+
+
+
+            //Add Movie Actors
+            foreach (var actorId in data.ActorIds)
+            {
+                var newActorMovie = new Actor_Movie()
+                {
+                    MovieId = newMovie.Id,
+                    ActorId= actorId
+                };
+
+            }
+
+
+
         }
 
         public  async Task<Movie> GetMovieByIdAsync(int id)
