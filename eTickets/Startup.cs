@@ -1,4 +1,5 @@
 ﻿using eTickets.Data;
+using eTickets.Data.Cart;
 using eTickets.Data.Services;
 using eTickets.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -48,7 +49,10 @@ namespace eTickets
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemasService, CinemasService>();
             services.AddScoped<IMoviesService, MoviesService>();
-
+            
+            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+            services.AddControllersWithViews();
 
         }
 
