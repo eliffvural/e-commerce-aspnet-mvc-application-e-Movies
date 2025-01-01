@@ -24,7 +24,19 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            @foreach(var item in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="align-middle">@item.Amount</td>
+                    <td class="align-middle">@item.Movie.Name</td>
+                    <td class="align-middle">@item.Movie.Price.ToString("c")</td>
+                    <td class="align-middle">@((item.Amount*item.Movie.Price).ToString("c"))</td>
+
+
+                </tr>
+            }
+        </tbody>
         <tfoot></tfoot>
     </table>
 
