@@ -1,5 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿﻿@model int;
+
+@if (Model > 0)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Orders" asp-action="ShoppingCart">
+            <i class="bi bi-cart4"></i> @Model
+        </a>
+    </li>
 }
