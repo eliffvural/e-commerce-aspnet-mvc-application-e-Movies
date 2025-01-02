@@ -29,6 +29,7 @@ namespace eTickets.Controllers
 
 
         [AllowAnonymous]
+        [Authorize]
         public IActionResult ShoppingCart()
         {
            var items= _shoppingCart.GetShoppingCartItems();
@@ -41,7 +42,9 @@ namespace eTickets.Controllers
             return View(response);
         }
 
-       public async Task<RedirectToActionResult> AddToShoppingCart(int id)
+        [Authorize]
+        [AllowAnonymous]
+        public async Task<RedirectToActionResult> AddItemToShoppingCart(int id)
         {
             var item = await _moviesService.GetMovieByIdAsync(id);
 
