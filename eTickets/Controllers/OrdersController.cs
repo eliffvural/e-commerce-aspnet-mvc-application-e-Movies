@@ -41,7 +41,16 @@ namespace eTickets.Controllers
             return View(response);
         }
 
-       
+       public async Task<RedirectToActionResult> AddToShoppingCart(int id)
+        {
+            var item = await _moviesService.GetMovieByIdAsync(id);
+
+            if(item != null)
+            {
+                _shoppingCart.AddItemToCart(item);
+            }
+            return RedirectToAction(nameof(ShoppingCart));
+        }
 
        
 
