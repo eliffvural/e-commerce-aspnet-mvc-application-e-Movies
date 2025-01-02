@@ -1,5 +1,6 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Base;
+using eTickets.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

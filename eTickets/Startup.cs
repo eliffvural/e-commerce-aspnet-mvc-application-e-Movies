@@ -32,15 +32,6 @@ namespace eTickets
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews();
-            services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
-                options.Cookie.HttpOnly = true; // Security
-                options.Cookie.IsEssential = true; // Ensure cookies are essential
-            });
-
             //DbContext configuration
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
@@ -49,11 +40,22 @@ namespace eTickets
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemasService, CinemasService>();
             services.AddScoped<IMoviesService, MoviesService>();
-            
-            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
-            services.AddControllersWithViews();
+         
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+
+            //Authentication and authorization
+          services.AddSession();
+            services.AddMemoryCache();
+            
+            services.AddAuthorization();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +75,7 @@ namespace eTickets
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
+         app.UseSession();
 
             //Authentication & Authorization
             app.UseAuthentication();
@@ -90,7 +92,7 @@ namespace eTickets
 
             //Seed database
             AppDbInitializer.Seed(app);
-    
+           
         }
     }
 }

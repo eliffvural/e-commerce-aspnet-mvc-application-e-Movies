@@ -12,7 +12,7 @@ using eTickets.Data;
 namespace eTickets.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241229222617_ShoppingCartItems_Added")]
+    [Migration("20250102080103_ShoppingCartItems_Added")]
     partial class ShoppingCartItems_Added
     {
         /// <inheritdoc />
@@ -241,7 +241,7 @@ namespace eTickets.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("ShoppingCartİtems");
+                    b.ToTable("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("eTickets.Models.Actor_Movie", b =>
