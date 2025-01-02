@@ -26,7 +26,10 @@ namespace eTickets.Controllers
            
         }
 
-        public IActionResult Index()
+
+
+        [AllowAnonymous]
+        public IActionResult ShoppingCart()
         {
            var items= _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
@@ -35,20 +38,6 @@ namespace eTickets.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
             };
-            return View(response);
-        }
-
-        public IActionResult ShoppingCart()
-        {
-            var items = _shoppingCart.GetShoppingCartItems();
-            _shoppingCart.ShoppingCartItems = items;
-
-            var response = new ShoppingCartVM()
-            {
-                ShoppingCart = _shoppingCart,
-                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
-            };
-
             return View(response);
         }
 
