@@ -74,10 +74,22 @@ namespace eTickets.Controllers
                 Email = registerVM.EmailAddress,
                 UserName = registerVM.EmailAddress
             };
-            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+         var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
 
-            if (newUserResponse.Succeeded)
-                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+if (newUserResponse.Succeeded)
+{
+    await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+    return RedirectToAction("Login", "Account"); // Kullanıcıyı Login sayfasına yönlendirin
+}
+else
+{
+    foreach (var error in newUserResponse.Errors)
+    {
+        ModelState.AddModelError(string.Empty, error.Description);
+    }
+    return View(registerVM); // Hata durumunda formu tekrar gösterin
+}
+
 
             return View("RegisterCompleted");
         }
