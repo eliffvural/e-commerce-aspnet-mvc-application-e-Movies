@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace eTickets.Controllers
 {
     [Authorize]
+
     public class OrdersController : Controller
     {
         private readonly IMoviesService _moviesService;
@@ -29,6 +30,10 @@ namespace eTickets.Controllers
            
         }
 
+
+
+        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             string userId = "";
