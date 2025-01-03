@@ -46,14 +46,17 @@ namespace eTickets
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
             //Authentication and authorization
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+       services.AddMemoryCache();
           services.AddSession();
-            services.AddMemoryCache();
-            
-            services.AddAuthorization();
-            services.AddAuthentication(options =>
+services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });
+     
+            
+            services.AddAuthorization();
+            
 
             services.AddControllersWithViews();
         }
@@ -92,7 +95,8 @@ namespace eTickets
 
             //Seed database
             AppDbInitializer.Seed(app);
-           
+            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+
         }
     }
 }
