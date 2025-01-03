@@ -13,10 +13,8 @@
 }
 else
 {
-
-    @*User profile section*@
     <div class="dropdown">
-        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown"
+        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown"
                 aria-expanded="false">
             <i class="bi bi-person-badge"></i> Hello @UserManager.GetUserName(User)
         </button>
@@ -26,17 +24,9 @@ else
                     <i class="bi bi-list"></i> Orders
                 </a>
             </li>
-
-            @if (User.IsInRole("Admin"))
-            {
-                <li>
-                    <a class="dropdown-item" asp-controller="Account" asp-action="Users">
-                        <i class="bi bi-people"></i> Users
-                    </a>
-                </li>
-            }
         </ul>
     </div>
+
     <span style="padding: 5px;"></span>
     <form asp-controller="Account" asp-action="Logout">
         <button class="btn btn-outline-danger my-2 my-sm-0">
