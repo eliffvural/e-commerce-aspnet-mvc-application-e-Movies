@@ -13,8 +13,11 @@ namespace eTickets.Controllers
         private readonly AppDbContext _context;
 
 
-        public AccountController() 
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context) 
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
         }
 
 
