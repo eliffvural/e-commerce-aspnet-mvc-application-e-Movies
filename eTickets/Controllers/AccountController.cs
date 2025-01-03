@@ -21,8 +21,11 @@ namespace eTickets.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
+
+
+
             return View();
         }
     }
