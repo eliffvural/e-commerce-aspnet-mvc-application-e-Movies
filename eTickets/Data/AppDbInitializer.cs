@@ -326,7 +326,7 @@ namespace eTickets.Data
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
 
-                //Roles Section
+                //Roles
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                 if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
@@ -334,12 +334,11 @@ namespace eTickets.Data
                 if (!await roleManager.RoleExistsAsync(UserRoles.User))
                     await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-
                 //Users
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                string adminUserEmail= "admmin@etickets.com";
-                var adminUser = await userManager.FindByEmailAsync("adminUserEmail");
+                string adminUserEmail = "elifadmin@etickets.com";
 
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
                 if (adminUser == null)
                 {
                     var newAdminUser = new ApplicationUser()
@@ -349,13 +348,9 @@ namespace eTickets.Data
                         Email = adminUserEmail,
                         EmailConfirmed = true
                     };
-                    await userManager.CreateAsync(newAdminUser, "Coding@1234?");
+                    await userManager.CreateAsync(newAdminUser, "elifadmin21");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
-
-
-
-
 
 
                 string appUserEmail = "user@etickets.com";

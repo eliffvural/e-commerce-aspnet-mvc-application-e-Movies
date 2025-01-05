@@ -13,7 +13,7 @@
                     <th>@Html.DisplayNameFor(model => model.ProfilePictureURL)</th>
                     <th>@Html.DisplayNameFor(model => model.FullName)</th>
                     <th>@Html.DisplayNameFor(model => model.Bio)</th>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                       <th>Actions</th>
                     }

@@ -4,6 +4,7 @@ using eTickets.Data.ViewModels;
 using eTickets.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Controllers
 {
@@ -20,6 +21,13 @@ namespace eTickets.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+        }
+
+
+        public async Task<IActionResult> Users()
+        {
+            var users = await _context.Users.ToListAsync();
+            return View(users);
         }
 
 

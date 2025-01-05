@@ -13,6 +13,7 @@
                     <th>@Html.DisplayNameFor(model => model.Logo)</th>
                     <th>@Html.DisplayNameFor(model => model.Name)</th>
                     <th>@Html.DisplayNameFor(model => model.Description)</th>
+
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                       <th>Actions</th>
