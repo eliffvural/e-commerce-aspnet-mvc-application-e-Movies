@@ -31,21 +31,31 @@ namespace eTickets
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //DbContext configuration
+            // DbContext configuration
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
-            //Services configuration
+            // Services configuration
             services.AddScoped<IActorsService, ActorsService>();
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemasService, CinemasService>();
             services.AddScoped<IMoviesService, MoviesService>();
             services.AddScoped<IOrdersService, OrdersService>();
 
+            // OLAP Service configuration
+            services.AddTransient<IOlapService>(provider =>
+            {
+                var connectionString = Configuration.GetConnectionString("OlapConnection");
+                return new OlapService(connectionString);
+            });
+
+            services.AddSingleton<IOlapService>(provider =>
+    new OlapService(Configuration.GetConnectionString("OlapConnection")));
+
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
-            //Authentication and authorization
+            // Authentication and authorization
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -56,16 +66,16 @@ namespace eTickets
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
             services.AddMemoryCache();
-          services.AddSession();
-services.AddAuthentication(options =>
+            services.AddSession();
+
+            services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });
-     
-            
+
             services.AddAuthorization();
-            
 
             services.AddControllersWithViews();
         }
@@ -83,16 +93,15 @@ services.AddAuthentication(options =>
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-         app.UseSession();
+            app.UseSession();
 
-            //Authentication & Authorization
+            // Authentication & Authorization
             app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -102,10 +111,9 @@ services.AddAuthentication(options =>
                     pattern: "{controller=Movies}/{action=Index}/{id?}");
             });
 
-            //Seed database
+            // Seed database
             AppDbInitializer.Seed(app);
             AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
-
         }
     }
 }

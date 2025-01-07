@@ -4,12 +4,15 @@ using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace eTickets.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
+        private const string ApiUrl = "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
+        private const string BearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZDY1ZDU0OGU4Nzg1Njk2MjNlMDc2MmZhNDY5YzExNyIsIm5iZiI6MTczNjE5Mjc5Ny4zODIwMDAyLCJzdWIiOiI2NzdjMzMxZDhmZDZmNTEwOWQ3MmVhOGIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.CiVXjuU_WDjeKwtd-TJiqTXZi4_S8w-KRjxUhCFxgiE"; // Buraya gerçek tokenınızı koyun
 
         public MoviesController(IMoviesService service)
         {
@@ -134,6 +137,58 @@ namespace eTickets.Controllers
             }
             await _service.UpdateMovieAsync(movie);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TrendingMovies()
+        {
+            try
+            {
+                // HttpClient ile API'ye bağlan
+                using var client = new HttpClient();
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(ApiUrl),
+                    Headers =
+           {
+               { "accept", "application/json" },
+               { "Authorization", $"Bearer {BearerToken}" },
+           },
+                };
+
+                using var response = await client.SendAsync(request);
+
+                // API çağrısı başarısızsa hata döner
+                if (!response.IsSuccessStatusCode)
+                    return StatusCode((int)response.StatusCode, "Failed to fetch trending movies.");
+
+                // API'den JSON veriyi al
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                // JSON'u dinamik objeye dönüştür
+                var moviesData = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                // Veriyi Dictionary içine filtrele ve aktar
+                var movieList = new List<Dictionary<string, string>>();
+                foreach (var movie in moviesData.results)
+                {
+                    var movieDict = new Dictionary<string, string>
+           {
+               { "original_title", (string)movie.original_title },
+               { "overview", (string)movie.overview },
+               { "poster_path", $"https://image.tmdb.org/t/p/w500{(string)movie.poster_path}" } // Poster URL'sini tam yap
+           };
+                    movieList.Add(movieDict);
+                }
+
+                // Filtrelenmiş veriyi View'a gönder
+                return View(movieList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
     }
 }
